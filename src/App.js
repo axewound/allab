@@ -1,12 +1,32 @@
-
 import './App.css';
+import {withRouter} from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-12
-    </div>
-  );
+import {connect} from "react-redux";
+import ProductPages from "./products/ProductPage";
+import {getProductThunk, setProduct} from "./redux/products-reducer";
+import {useEffect} from "react";
+
+function App(props) {
+    useEffect(() => {
+        props.getProductThunk();
+    }, []);
+
+
+
+    return (
+        <div className="App">
+            <ProductPages products={props.products}/>
+        </div>
+    );
 }
 
-export default App;
+let mapStateToProps = (state) => {
+    return {
+        products: state.productsPage.products
+    }
+}
+let WithContainer = withRouter(App)
+
+export default connect(mapStateToProps, {getProductThunk, setProduct})(WithContainer);
+
+
