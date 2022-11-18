@@ -1,27 +1,24 @@
 import React from "react";
 import {usersAPI} from "../api/api";
 
-const PRODUCTS = "PRODUCTS"
-const SET_PRODUCT = 'SET_PRODUCT';
 
+const SET_PRODUCT = 'SET_PRODUCT';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
 let initialState = {
-products:[
-]
+    products: [],
+    profile: {}
 }
 
 const productsReducer = (state = initialState, action) => {
+    console.log(action)
     switch (action.type) {
 
-/*        case PRODUCTS:
-            return {
+        case SET_USER_PROFILE: {
+            debugger
+            return {...state, profile: action.profile}
+        }
 
-
-                ...state,
-                products: state.products,
-
-            }*/
         case SET_PRODUCT: {
-            console.log(action)
 
             return {
 
@@ -35,7 +32,7 @@ const productsReducer = (state = initialState, action) => {
 
     }
 }
-export const setUserProfile = (profile) => ({type: PRODUCTS, profile})
+export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile})
 export const setProduct = (products) => ({type: SET_PRODUCT, products})
 
 export const getProductThunk = () => {
@@ -46,8 +43,9 @@ export const getProductThunk = () => {
     }
 }
 export const getUserProfile = (userId) => (dispatch) => {
-    debugger
+    console.log(userId)
     usersAPI.getProfile(userId).then(response => {
+
         dispatch(setUserProfile(response.data));
     });
 }
